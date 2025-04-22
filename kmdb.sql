@@ -113,12 +113,91 @@
 -- Drop existing tables, so you'll start fresh each time this script is run.
 -- TODO!
 
+DROP TABLE IF EXISTS movies; 
+
+DROP TABLE IF EXISTS studios; 
+
+DROP TABLE IF EXISTS credits; 
+
+DROP TABLE IF EXISTS actors; 
+
 -- Create new tables, according to your domain model
 -- TODO!
+
+CREATE TABLE movies (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    movie_title TEXT,
+    year_released TEXT, 
+    MPAA_rating TEXT, 
+    studio_name TEXT
+); 
+
+CREATE TABLE studios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, 
+    studio_name TEXT,
+    movie_title TEXT
+); 
+
+CREATE TABLE credits(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor_name TEXT, 
+    character_name TEXT
+);
+
+CREATE TABLE actors(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    actor_name TEXT, 
+    movie_title TEXT
+);
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
 -- TODO!
+
+INSERT INTO movies (movie_title, year_released, MPAA_rating, studio_name) VALUES
+('Batman Begins', '2005', 'PG-13', 'Warner Bros.'),
+('The Dark Knight', '2008', 'PG-13', 'Warner Bros.'),
+('The Dark Knight Rises', '2012', 'PG-13', 'Warner Bros.');
+
+INSERT INTO studios (studio_name, movie_title) VALUES
+('Warner Bros.', 'Batman Begins'),
+('Warner Bros.', 'The Dark Knight'),
+('Warner Bros.', 'The Dark Knight Rises');
+
+INSERT INTO actors (actor_name, movie_title) VALUES
+('Christian Bale', 'Batman Begins'),
+('Michael Caine', 'Batman Begins'),
+('Liam Neeson', 'Batman Begins'),
+('Katie Holmes', 'Batman Begins'),
+('Gary Oldman', 'Batman Begins'),
+('Christian Bale', 'The Dark Knight'),
+('Heath Ledger', 'The Dark Knight'),
+('Aaron Eckhart', 'The Dark Knight'),
+('Michael Caine', 'The Dark Knight'),
+('Maggie Gyllenhaal', 'The Dark Knight'),
+('Christian Bale', 'The Dark Knight Rises'),
+('Gary Oldman', 'The Dark Knight Rises'),
+('Tom Hardy', 'The Dark Knight Rises'),
+('Joseph Gordon-Levitt', 'The Dark Knight Rises'),
+('Anne Hathaway', 'The Dark Knight Rises');
+
+INSERT INTO credits (actor_name, character_name) VALUES
+('Christian Bale', 'Bruce Wayne'),
+('Michael Caine', 'Alfred'),
+('Liam Neeson', 'Ra''s Al Ghul'),
+('Katie Holmes', 'Rachel Dawes'),
+('Gary Oldman', 'Commissioner Gordon'),
+('Christian Bale', 'Bruce Wayne'),
+('Heath Ledger', 'Joker'),
+('Aaron Eckhart', 'Harvey Dent'),
+('Michael Caine', 'Alfred'),
+('Maggie Gyllenhaal', 'Rachel Dawes'),
+('Christian Bale', 'Bruce Wayne'),
+('Gary Oldman', 'Commissioner Gordon'),
+('Tom Hardy', 'Bane'),
+('Joseph Gordon-Levitt', 'John Blake'),
+('Anne Hathaway', 'Selina Kyle');
+
 
 -- Prints a header for the movies output
 .print "Movies"
@@ -128,12 +207,20 @@
 -- The SQL statement for the movies output
 -- TODO!
 
+SELECT movie_title, year_released, MPAA_rating, studio_name 
+FROM movies;
+
 -- Prints a header for the cast output
 .print ""
 .print "Top Cast"
 .print "========"
 .print ""
 
-
 -- The SQL statement for the cast output
 -- TODO!
+
+SELECT actors.movie_title, credits.actor_name, credits.character_name
+FROM credits
+INNER JOIN actors ON credits.actor_name = actors.actor_name;
+
+
